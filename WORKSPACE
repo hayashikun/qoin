@@ -2,10 +2,17 @@ workspace(name = "qoin")
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
+"""
 http_archive(
     name = "mediapipe",
     strip_prefix = "mediapipe-master",
     urls = ["https://github.com/google/mediapipe/archive/master.zip"],
+)
+"""
+
+local_repository(
+    name = "mediapipe",
+    path = "../mediapipe"
 )
 
 http_archive(
@@ -109,3 +116,49 @@ http_archive(
     sha256 = "1dde365491125a3db70731e25658dfdd3bc5dbdfd11b840b3e987ecf043c7ca0",
 )
 load("@bazel_skylib//lib:versions.bzl", "versions")
+
+
+new_local_repository(
+    name = "macos_opencv",
+    build_file = "@mediapipe//third_party:opencv_macos.BUILD",
+    path = "/usr",
+)
+
+new_local_repository(
+    name = "macos_ffmpeg",
+    build_file = "@mediapipe//third_party:ffmpeg_macos.BUILD",
+    path = "/usr",
+)
+
+
+http_archive(
+    name = "io_bazel_rules_closure",
+    sha256 = "e0a111000aeed2051f29fcc7a3f83be3ad8c6c93c186e64beb1ad313f0c7f9f9",
+    strip_prefix = "rules_closure-cf1e44edb908e9616030cc83d085989b8e6cd6df",
+    urls = [
+        "http://mirror.tensorflow.org/github.com/bazelbuild/rules_closure/archive/cf1e44edb908e9616030cc83d085989b8e6cd6df.tar.gz",
+        "https://github.com/bazelbuild/rules_closure/archive/cf1e44edb908e9616030cc83d085989b8e6cd6df.tar.gz",  # 2019-04-04
+    ],
+)
+
+
+_TENSORFLOW_GIT_COMMIT = "7c09d15f9fcc14343343c247ebf5b8e0afe3e4aa"
+_TENSORFLOW_SHA256= "673d00cbd2676ae43df1993e0d28c10b5ffbe96d9e2ab29f88a77b43c0211299"
+http_archive(
+    name = "org_tensorflow",
+    urls = [
+      "https://mirror.bazel.build/github.com/tensorflow/tensorflow/archive/%s.tar.gz" % _TENSORFLOW_GIT_COMMIT,
+      "https://github.com/tensorflow/tensorflow/archive/%s.tar.gz" % _TENSORFLOW_GIT_COMMIT,
+    ],
+    patches = [
+        "@mediapipe//third_party:org_tensorflow_compatibility_fixes.diff",
+    ],
+    patch_args = [
+        "-p1",
+    ],
+    strip_prefix = "tensorflow-%s" % _TENSORFLOW_GIT_COMMIT,
+    sha256 = _TENSORFLOW_SHA256,
+)
+
+load("@org_tensorflow//tensorflow:workspace.bzl", "tf_workspace")
+tf_workspace(tf_repo_name = "org_tensorflow")
