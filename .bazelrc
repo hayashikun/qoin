@@ -1,0 +1,4 @@
+build --define='MEDIAPIPE_DISABLE_GPU=1'
+build --cxxopt=-std=c++14
+build --host_cxxopt=-std=c++14
+build --copt=-w

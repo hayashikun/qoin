@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "name": "Mac",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/bazel-qoin/external/**"
+            ],
+            "defines": [],
+            "macFrameworkPath": [],
+            "compilerPath": "/usr/local/bin/gcc-10",
+            "cStandard": "gnu18",
+            "cppStandard": "gnu++14",
+            "intelliSenseMode": "gcc-x64"
+        }
+    ],
+    "version": 4
+}
