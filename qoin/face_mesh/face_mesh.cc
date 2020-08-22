@@ -56,7 +56,7 @@ DEFINE_string(mediapipe_resource_root, "",
   if (load_video) {
     capture.open(FLAGS_input_video_path);
   } else {
-    capture.open(1);
+    capture.open(2);
   }
   RET_CHECK(capture.isOpened());
 
@@ -73,7 +73,16 @@ DEFINE_string(mediapipe_resource_root, "",
 
   LOG(INFO) << "Start running the calculator graph.";
   ASSIGN_OR_RETURN(mediapipe::OutputStreamPoller video_poller, graph.AddOutputStreamPoller(kOutputVideo));
-  ASSIGN_OR_RETURN(mediapipe::OutputStreamPoller landmarks_poller, graph.AddOutputStreamPoller(kOutputLandmarks));
+  graph.ObserveOutputStream(kOutputLandmarks, [&](const mediapipe::Packet& p) {
+    auto& landmarks = p.Get<std::vector<mediapipe::NormalizedLandmarkList>>();
+    for (int i = 0; i < landmarks.size(); i++)
+    {
+      LOG(INFO) << landmarks[i].DebugString();
+    }
+    return ::mediapipe::OkStatus();
+  });
+
+  // ASSIGN_OR_RETURN(mediapipe::OutputStreamPoller landmarks_poller, graph.AddOutputStreamPoller(kOutputLandmarks));
   MP_RETURN_IF_ERROR(graph.StartRun({}));
 
   LOG(INFO) << "Start grabbing and processing frames.";
@@ -126,15 +135,6 @@ DEFINE_string(mediapipe_resource_root, "",
       // Press any key to exit.
       const int pressed_key = cv::waitKey(5);
       if (pressed_key >= 0 && pressed_key != 255) grab_frames = false;
-    }
-
-    mediapipe::Packet packet_landmarks;
-    if (!landmarks_poller.Next(&packet_landmarks)) break;
-    auto& output_landmarks = packet_landmarks.Get<std::vector<mediapipe::NormalizedLandmarkList>>();
-
-    for (int landmark_idx = 0; landmark_idx < output_landmarks.size(); landmark_idx++)
-    {
-      LOG(INFO) << output_landmarks[landmark_idx].DebugString();
     }
   }
 
