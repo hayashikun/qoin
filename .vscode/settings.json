@@ -93,5 +93,8 @@
     "editor.formatOnSave": true,
     "C_Cpp.clang_format_sortIncludes": true,
     "C_Cpp.clang_format_fallbackStyle": "Google",
-    "C_Cpp.clang_format_path": "/usr/local/bin/clang-format"
+    "C_Cpp.clang_format_path": "/usr/local/bin/clang-format",
+    "bazel.buildifierPath": "/Users/ryosuke/go/bin/buildifier",
+    "bazel.executable": "/usr/local/bin/bazel",
+    "bazel.buildifierExecutable": "/Users/ryosuke/go/bin/buildifier"
 }

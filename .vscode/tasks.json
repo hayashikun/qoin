@@ -6,7 +6,7 @@
 			"label": "build hand_tracking",
 			"command": "bazel",
 			"args": [
-				"build",
+				"run",
 				"-c",
 				"opt",
 				"qoin/hand_tracking",
@@ -15,16 +15,6 @@
 				"cwd": "${workspaceFolder}"
 			},
 			"group": "build"
-		},
-		{
-			"type": "shell",
-			"label": "run hand_tracking",
-			"command": "bazel-bin/qoin/hand_tracking/hand_tracking",
-			"options": {
-				"cwd": "${workspaceFolder}",
-				"env": {"GLOG_logtostderr": "1"}
-			},
-			"group": "build",
-		},
+		}
 	]
 }

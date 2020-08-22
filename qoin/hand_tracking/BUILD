@@ -1,12 +1,14 @@
+load("@rules_cc//cc:defs.bzl", "cc_binary")
+
 cc_binary(
     name = "hand_tracking",
     srcs = ["hand_tracking.cc"],
     deps = [
         "@mediapipe//mediapipe/framework:calculator_framework",
+        "@mediapipe//mediapipe/framework/formats:detection_cc_proto",
         "@mediapipe//mediapipe/framework/formats:image_frame",
         "@mediapipe//mediapipe/framework/formats:image_frame_opencv",
         "@mediapipe//mediapipe/framework/formats:landmark_cc_proto",
-        "@mediapipe//mediapipe/framework/formats:detection_cc_proto",
         "@mediapipe//mediapipe/framework/port:commandlineflags",
         "@mediapipe//mediapipe/framework/port:file_helpers",
         "@mediapipe//mediapipe/framework/port:opencv_highgui",
