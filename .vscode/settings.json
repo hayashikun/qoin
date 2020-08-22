@@ -76,6 +76,17 @@
         "typeindex": "cpp",
         "typeinfo": "cpp",
         "valarray": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "*.ipp": "cpp",
+        "csetjmp": "cpp",
+        "strstream": "cpp",
+        "charconv": "cpp",
+        "codecvt": "cpp",
+        "coroutine": "cpp",
+        "cuchar": "cpp",
+        "netfwd": "cpp",
+        "rope": "cpp",
+        "numbers": "cpp",
+        "span": "cpp"
     }
 }

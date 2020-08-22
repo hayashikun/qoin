@@ -3,6 +3,7 @@
 #include "mediapipe/framework/calculator_framework.h"
 #include "mediapipe/framework/formats/image_frame.h"
 #include "mediapipe/framework/formats/image_frame_opencv.h"
+#include "mediapipe/framework/formats/landmark.pb.h"
 #include "mediapipe/framework/port/commandlineflags.h"
 #include "mediapipe/framework/port/file_helpers.h"
 #include "mediapipe/framework/port/opencv_highgui_inc.h"
@@ -16,7 +17,8 @@
 ABSL_DECLARE_FLAG(std::string, resource_root_dir);
 
 constexpr char kInputStream[] = "input_video";
-constexpr char kOutputStream[] = "output_video";
+constexpr char kOutputVideo[] = "output_video";
+constexpr char kOutputLandmarks[] = "multi_face_landmarks";
 constexpr char kWindowName[] = "MediaPipe";
 
 DEFINE_string(
@@ -54,7 +56,7 @@ DEFINE_string(mediapipe_resource_root, "",
   if (load_video) {
     capture.open(FLAGS_input_video_path);
   } else {
-    capture.open(3);
+    capture.open(1);
   }
   RET_CHECK(capture.isOpened());
 
@@ -63,15 +65,15 @@ DEFINE_string(mediapipe_resource_root, "",
   if (!save_video) {
     cv::namedWindow(kWindowName, /*flags=WINDOW_AUTOSIZE*/ 1);
 #if (CV_MAJOR_VERSION >= 3) && (CV_MINOR_VERSION >= 2)
-    capture.set(cv::CAP_PROP_FRAME_WIDTH, 640);
-    capture.set(cv::CAP_PROP_FRAME_HEIGHT, 480);
+    capture.set(cv::CAP_PROP_FRAME_WIDTH, 800);
+    capture.set(cv::CAP_PROP_FRAME_HEIGHT, 600);
     capture.set(cv::CAP_PROP_FPS, 30);
 #endif
   }
 
   LOG(INFO) << "Start running the calculator graph.";
-  ASSIGN_OR_RETURN(mediapipe::OutputStreamPoller poller,
-                   graph.AddOutputStreamPoller(kOutputStream));
+  ASSIGN_OR_RETURN(mediapipe::OutputStreamPoller video_poller, graph.AddOutputStreamPoller(kOutputVideo));
+  ASSIGN_OR_RETURN(mediapipe::OutputStreamPoller landmarks_poller, graph.AddOutputStreamPoller(kOutputLandmarks));
   MP_RETURN_IF_ERROR(graph.StartRun({}));
 
   LOG(INFO) << "Start grabbing and processing frames.";
@@ -102,9 +104,10 @@ DEFINE_string(mediapipe_resource_root, "",
                           .At(mediapipe::Timestamp(frame_timestamp_us))));
 
     // Get the graph result packet, or stop if that fails.
-    mediapipe::Packet packet;
-    if (!poller.Next(&packet)) break;
-    auto& output_frame = packet.Get<mediapipe::ImageFrame>();
+    mediapipe::Packet packet_video;    
+    if (!video_poller.Next(&packet_video)) break;
+    auto& output_frame = packet_video.Get<mediapipe::ImageFrame>();
+
 
     // Convert back to opencv for display or saving.
     cv::Mat output_frame_mat = mediapipe::formats::MatView(&output_frame);
@@ -124,7 +127,17 @@ DEFINE_string(mediapipe_resource_root, "",
       const int pressed_key = cv::waitKey(5);
       if (pressed_key >= 0 && pressed_key != 255) grab_frames = false;
     }
+
+    mediapipe::Packet packet_landmarks;
+    if (!landmarks_poller.Next(&packet_landmarks)) break;
+    auto& output_landmarks = packet_landmarks.Get<std::vector<mediapipe::NormalizedLandmarkList>>();
+
+    for (int landmark_idx = 0; landmark_idx < output_landmarks.size(); landmark_idx++)
+    {
+      LOG(INFO) << output_landmarks[landmark_idx].DebugString();
+    }
   }
+
 
   LOG(INFO) << "Shutting down.";
   if (writer.isOpened()) writer.release();
