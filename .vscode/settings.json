@@ -87,6 +87,11 @@
         "netfwd": "cpp",
         "rope": "cpp",
         "numbers": "cpp",
-        "span": "cpp"
-    }
+        "span": "cpp",
+        "*.inc": "cpp"
+    },
+    "editor.formatOnSave": true,
+    "C_Cpp.clang_format_sortIncludes": true,
+    "C_Cpp.clang_format_fallbackStyle": "Google",
+    "C_Cpp.clang_format_path": "/usr/local/bin/clang-format"
 }

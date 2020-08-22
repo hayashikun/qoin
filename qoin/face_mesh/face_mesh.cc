@@ -1,5 +1,7 @@
 #include <cstdlib>
 
+#include "absl/flags/declare.h"
+#include "absl/flags/flag.h"
 #include "mediapipe/framework/calculator_framework.h"
 #include "mediapipe/framework/formats/image_frame.h"
 #include "mediapipe/framework/formats/image_frame_opencv.h"
@@ -11,8 +13,6 @@
 #include "mediapipe/framework/port/opencv_video_inc.h"
 #include "mediapipe/framework/port/parse_text_proto.h"
 #include "mediapipe/framework/port/status.h"
-#include "absl/flags/declare.h"
-#include "absl/flags/flag.h"
 
 ABSL_DECLARE_FLAG(std::string, resource_root_dir);
 
@@ -30,9 +30,7 @@ DEFINE_string(input_video_path, "",
 DEFINE_string(output_video_path, "",
               "Full path of where to save result (.mp4 only). "
               "If not provided, show result in a window.");
-DEFINE_string(mediapipe_resource_root, "",
-              "Resource root directory");
-
+DEFINE_string(mediapipe_resource_root, "", "Resource root directory");
 
 ::mediapipe::Status RunMPPGraph() {
   absl::SetFlag(&FLAGS_resource_root_dir, FLAGS_mediapipe_resource_root);
@@ -72,11 +70,11 @@ DEFINE_string(mediapipe_resource_root, "",
   }
 
   LOG(INFO) << "Start running the calculator graph.";
-  ASSIGN_OR_RETURN(mediapipe::OutputStreamPoller video_poller, graph.AddOutputStreamPoller(kOutputVideo));
-  graph.ObserveOutputStream(kOutputLandmarks, [&](const mediapipe::Packet& p) {
-    auto& landmarks = p.Get<std::vector<mediapipe::NormalizedLandmarkList>>();
-    for (int i = 0; i < landmarks.size(); i++)
-    {
+  ASSIGN_OR_RETURN(mediapipe::OutputStreamPoller video_poller,
+                   graph.AddOutputStreamPoller(kOutputVideo));
+  graph.ObserveOutputStream(kOutputLandmarks, [&](const mediapipe::Packet &p) {
+    auto &landmarks = p.Get<std::vector<mediapipe::NormalizedLandmarkList>>();
+    for (int i = 0; i < landmarks.size(); i++) {
       LOG(INFO) << landmarks[i].DebugString();
     }
     return ::mediapipe::OkStatus();
@@ -112,10 +110,9 @@ DEFINE_string(mediapipe_resource_root, "",
                           .At(mediapipe::Timestamp(frame_timestamp_us))));
 
     // Get the graph result packet, or stop if that fails.
-    mediapipe::Packet packet_video;    
+    mediapipe::Packet packet_video;
     if (!video_poller.Next(&packet_video)) break;
-    auto& output_frame = packet_video.Get<mediapipe::ImageFrame>();
-
+    auto &output_frame = packet_video.Get<mediapipe::ImageFrame>();
 
     // Convert back to opencv for display or saving.
     cv::Mat output_frame_mat = mediapipe::formats::MatView(&output_frame);
@@ -137,14 +134,13 @@ DEFINE_string(mediapipe_resource_root, "",
     }
   }
 
-
   LOG(INFO) << "Shutting down.";
   if (writer.isOpened()) writer.release();
   MP_RETURN_IF_ERROR(graph.CloseInputStream(kInputStream));
   return graph.WaitUntilDone();
 }
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
   google::InitGoogleLogging(argv[0]);
   gflags::ParseCommandLineFlags(&argc, &argv, true);
   ::mediapipe::Status run_status = RunMPPGraph();
