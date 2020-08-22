@@ -13,3 +13,11 @@ $ GLOG_logtostderr=1 bazel-bin/qoin/face_mesh/face_mesh \
 --calculator_graph_config_file=graphs/face_mesh_desktop_live.pbtxt \
 --mediapipe_resource_root=bazel-qoin/external/mediapipe
 ```
+
+## Hand tracking
+```
+$ bazel build -c opt //qoin/hand_tracking
+$ GLOG_logtostderr=1 bazel-bin/qoin/hand_tracking/hand_tracking \
+--calculator_graph_config_file=graphs/hand_tracking_desktop_live.pbtxt \
+--mediapipe_resource_root=bazel-qoin/external/mediapipe
+```
