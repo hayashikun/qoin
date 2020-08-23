@@ -9,6 +9,7 @@ service Greeter {
   rpc SayHelloAgain(HelloRequest) returns (HelloReply) {}
 
   rpc GetRect(RectRequest) returns (RectReply) {}
+  rpc HelloStream(HelloRequest) returns (stream HelloReply) {}
 }
 
 message HelloRequest { string name = 1; }
