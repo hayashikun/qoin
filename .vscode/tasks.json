@@ -3,13 +3,28 @@
 	"tasks": [
 		{
 			"type": "shell",
+			"label": "build face_mesh",
+			"command": "bazel",
+			"args": [
+				"run",
+				"-c",
+				"opt",
+				"qoin/solution/face_mesh",
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"group": "build"
+		},
+		{
+			"type": "shell",
 			"label": "build hand_tracking",
 			"command": "bazel",
 			"args": [
 				"run",
 				"-c",
 				"opt",
-				"qoin/hand_tracking",
+				"qoin/solution/hand_tracking",
 			],
 			"options": {
 				"cwd": "${workspaceFolder}"
