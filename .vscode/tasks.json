@@ -33,11 +33,11 @@
 		},
 		{
 			"type": "shell",
-			"label": "run server",
+			"label": "run hello_server",
 			"command": "bazel",
 			"args": [
 				"run",
-				"qoin/server:server",
+				"qoin/server:hello_server",
 			],
 			"options": {
 				"cwd": "${workspaceFolder}",
@@ -45,21 +45,6 @@
 					"GLOG_logtostderr": "1"
 				}
 			}
-		},
-		{
-			"type": "shell",
-			"label": "run client",
-			"command": "bazel",
-			"args": [
-				"run",
-				"qoin/server:client",
-			],
-			"options": {
-				"cwd": "${workspaceFolder}",
-				"env": {
-					"GLOG_logtostderr": "1"
-				}
-			}
-		},
+		}
 	]
 }

@@ -8,7 +8,7 @@ proto_library(
     name = "hello_proto",
     srcs = ["hello.proto"],
     deps = [
-        "@mediapipe//mediapipe/framework/formats:landmark_proto",
+        "@mediapipe//mediapipe/framework/formats:rect_proto",
     ],
 )
 

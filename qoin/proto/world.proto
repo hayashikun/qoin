@@ -1,4 +1,0 @@
-syntax = "proto3";
-
-package qoin;
-message World { string name = 1; }

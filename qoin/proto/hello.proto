@@ -1,22 +1,18 @@
 syntax = "proto3";
 
-import "mediapipe/framework/formats/landmark.proto";
+import "mediapipe/framework/formats/rect.proto";
 
 package qoin;
 
-// The greeting service definition.
 service Greeter {
-  // Sends a greeting
   rpc SayHello(HelloRequest) returns (HelloReply) {}
-
-  // Sends another greeting
   rpc SayHelloAgain(HelloRequest) returns (HelloReply) {}
+
+  rpc GetRect(RectRequest) returns (RectReply) {}
 }
 
-// The request message containing the user's name.
 message HelloRequest { string name = 1; }
-
-// The response message containing the greetings
 message HelloReply { string message = 1; }
 
-message LandmarkRequest { mediapipe.Landmark landmark = 1; }
+message RectRequest {}
+message RectReply { mediapipe.Rect rect = 1; }
