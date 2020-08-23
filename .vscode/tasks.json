@@ -15,6 +15,36 @@
 				"cwd": "${workspaceFolder}"
 			},
 			"group": "build"
-		}
+		},
+		{
+			"type": "shell",
+			"label": "run server",
+			"command": "bazel",
+			"args": [
+				"run",
+				"qoin/server:server",
+			],
+			"options": {
+				"cwd": "${workspaceFolder}",
+				"env": {
+					"GLOG_logtostderr": "1"
+				}
+			}
+		},
+		{
+			"type": "shell",
+			"label": "run client",
+			"command": "bazel",
+			"args": [
+				"run",
+				"qoin/server:client",
+			],
+			"options": {
+				"cwd": "${workspaceFolder}",
+				"env": {
+					"GLOG_logtostderr": "1"
+				}
+			}
+		},
 	]
 }
