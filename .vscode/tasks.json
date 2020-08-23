@@ -6,7 +6,7 @@
 			"label": "build face_mesh",
 			"command": "bazel",
 			"args": [
-				"run",
+				"build",
 				"-c",
 				"opt",
 				"qoin/solution/face_mesh",
@@ -21,7 +21,7 @@
 			"label": "build hand_tracking",
 			"command": "bazel",
 			"args": [
-				"run",
+				"build",
 				"-c",
 				"opt",
 				"qoin/solution/hand_tracking",
