@@ -3,13 +3,13 @@
 	"tasks": [
 		{
 			"type": "shell",
-			"label": "build face_mesh",
+			"label": "build face_mesh_run",
 			"command": "bazel",
 			"args": [
 				"build",
 				"-c",
 				"opt",
-				"qoin/solution:face_mesh",
+				"qoin/solution:face_mesh_run",
 			],
 			"options": {
 				"cwd": "${workspaceFolder}"
@@ -18,13 +18,13 @@
 		},
 		{
 			"type": "shell",
-			"label": "build hand_tracking",
+			"label": "build hand_tracking_run",
 			"command": "bazel",
 			"args": [
 				"build",
 				"-c",
 				"opt",
-				"qoin/solution:hand_tracking",
+				"qoin/solution:hand_tracking_run",
 			],
 			"options": {
 				"cwd": "${workspaceFolder}"
@@ -38,6 +38,23 @@
 			"args": [
 				"run",
 				"qoin/server:hello_server",
+			],
+			"options": {
+				"cwd": "${workspaceFolder}",
+				"env": {
+					"GLOG_logtostderr": "1"
+				}
+			}
+		},
+		{
+			"type": "shell",
+			"label": "build face_mesh_server",
+			"command": "bazel",
+			"args": [
+				"build",
+				"-c",
+				"opt",
+				"qoin/server:face_mesh_server",
 			],
 			"options": {
 				"cwd": "${workspaceFolder}",
