@@ -12,6 +12,11 @@ $ bazel build -c opt //qoin/solution/face_mesh
 $ GLOG_logtostderr=1 bazel-bin/qoin/solution/face_mesh \
 --mediapipe_resource_root=bazel-qoin/external/mediapipe
 ```
+
+## Face mesh server
+```
+$ bazel build -c opt //qoin/server:face_mesh_server
+$ GLOG_logtostderr=1 bazel-bin/qoin/server/face_mesh_server \
 --calculator_graph_config_file=graphs/face_mesh_desktop_live.pbtxt \
 --mediapipe_resource_root=bazel-qoin/external/mediapipe
 ```

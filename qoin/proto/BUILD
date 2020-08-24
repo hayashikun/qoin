@@ -23,3 +23,22 @@ cc_grpc_library(
     grpc_only = True,
     deps = [":hello_cc_proto"],
 )
+
+proto_library(
+    name = "face_mesh_proto",
+    srcs = [
+        "face_mesh.proto",
+    ],
+)
+
+cc_proto_library(
+    name = "face_mesh_cc_proto",
+    deps = [":face_mesh_proto"],
+)
+
+cc_grpc_library(
+    name = "face_mesh_cc_grpc",
+    srcs = [":face_mesh_proto"],
+    grpc_only = True,
+    deps = [":face_mesh_cc_proto"],
+)

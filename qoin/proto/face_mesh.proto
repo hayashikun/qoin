@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package qoin;
+
+service FaceMesh {
+  rpc FaceMeshStream(FaceMeshRequest) returns (stream FaceMeshReply) {}
+}
+
+message FaceMeshRequest {}
+
+message FaceMeshReply {}
