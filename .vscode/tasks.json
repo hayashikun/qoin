@@ -9,7 +9,7 @@
 				"build",
 				"-c",
 				"opt",
-				"qoin/solution/face_mesh",
+				"qoin/solution:face_mesh",
 			],
 			"options": {
 				"cwd": "${workspaceFolder}"
@@ -24,7 +24,7 @@
 				"build",
 				"-c",
 				"opt",
-				"qoin/solution/hand_tracking",
+				"qoin/solution:hand_tracking",
 			],
 			"options": {
 				"cwd": "${workspaceFolder}"
