@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package qoin;
+
+message Landmark {
+  float x = 1;
+  float y = 2;
+  float z = 3;
+  float visibility = 4;
+}
+
+message LandmarkList { repeated Landmark landmark = 1; }

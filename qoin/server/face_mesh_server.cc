@@ -26,9 +26,9 @@ class FaceMeshSolutionServerImpl : public Solution {
                                   auto &landmark_lists = p.Get<std::vector<mediapipe::NormalizedLandmarkList>>();
                                   qoin::FaceMeshReply reply;
                                   for (int i = 0; i < landmark_lists.size(); i++) {
-                                    qoin::NormalizedLandmarkList* landmark_list = reply.add_landmark_list();
+                                    qoin::LandmarkList* landmark_list = reply.add_landmark_list();
                                     for (int j = 0; j < landmark_lists[i].landmark_size(); j++) {
-                                      qoin::NormalizedLandmark* landmark = landmark_list->add_landmark();
+                                      qoin::Landmark* landmark = landmark_list->add_landmark();
                                       landmark->set_x(landmark_lists[i].landmark(j).x());
                                       landmark->set_y(landmark_lists[i].landmark(j).y());
                                       landmark->set_z(landmark_lists[i].landmark(j).z());

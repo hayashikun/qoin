@@ -25,10 +25,21 @@ cc_grpc_library(
 )
 
 proto_library(
+    name = "landmark_proto",
+    srcs = [
+        "landmark.proto",
+    ],
+)
+
+
+proto_library(
     name = "face_mesh_proto",
     srcs = [
         "face_mesh.proto",
     ],
+    deps = [
+        ":landmark_proto"
+    ]
 )
 
 cc_proto_library(
