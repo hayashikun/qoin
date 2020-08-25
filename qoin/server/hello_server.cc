@@ -4,7 +4,6 @@
 #include <memory>
 #include <string>
 
-#include "mediapipe/framework/formats/rect.pb.h"
 #include "qoin/proto/hello.grpc.pb.h"
 
 // Logic and data behind the server's behavior.
@@ -22,15 +21,6 @@ class GreeterServiceImpl final : public qoin::Greeter::Service {
                              qoin::HelloReply* reply) override {
     std::string prefix("Hello again ");
     reply->set_message(prefix + request->name());
-    return grpc::Status::OK;
-  }
-
-  grpc::Status GetRect(grpc::ServerContext* context,
-                       const qoin::RectRequest* request,
-                       qoin::RectReply* reply) override {
-    mediapipe::Rect rect;
-    rect.set_x_center(0);
-    reply->mutable_rect()->CopyFrom(rect);
     return grpc::Status::OK;
   }
 

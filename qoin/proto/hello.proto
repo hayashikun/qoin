@@ -1,19 +1,12 @@
 syntax = "proto3";
 
-import "mediapipe/framework/formats/rect.proto";
-
 package qoin;
 
 service Greeter {
   rpc SayHello(HelloRequest) returns (HelloReply) {}
   rpc SayHelloAgain(HelloRequest) returns (HelloReply) {}
-
-  rpc GetRect(RectRequest) returns (RectReply) {}
   rpc HelloStream(HelloRequest) returns (stream HelloReply) {}
 }
 
 message HelloRequest { string name = 1; }
 message HelloReply { string message = 1; }
-
-message RectRequest {}
-message RectReply { mediapipe.Rect rect = 1; }

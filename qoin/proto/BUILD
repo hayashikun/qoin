@@ -7,9 +7,6 @@ package(default_visibility = ["//visibility:public"])
 proto_library(
     name = "hello_proto",
     srcs = ["hello.proto"],
-    deps = [
-        "@mediapipe//mediapipe/framework/formats:rect_proto",
-    ],
 )
 
 cc_proto_library(
