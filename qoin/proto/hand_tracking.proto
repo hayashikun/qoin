@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package qoin;
+
+import "qoin/proto/landmark.proto";
+
+service HandTracking {
+  rpc HandTrackingStream(HandTrackingRequest)
+      returns (stream HandTrackingReply) {}
+}
+
+message HandTrackingRequest {}
+
+message HandTrackingReply { LandmarkList landmark_list = 1; }

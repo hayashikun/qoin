@@ -28,15 +28,14 @@ proto_library(
     ],
 )
 
-
 proto_library(
     name = "face_mesh_proto",
     srcs = [
         "face_mesh.proto",
     ],
     deps = [
-        ":landmark_proto"
-    ]
+        ":landmark_proto",
+    ],
 )
 
 cc_proto_library(
@@ -49,4 +48,26 @@ cc_grpc_library(
     srcs = [":face_mesh_proto"],
     grpc_only = True,
     deps = [":face_mesh_cc_proto"],
+)
+
+proto_library(
+    name = "hand_tracking_proto",
+    srcs = [
+        "hand_tracking.proto",
+    ],
+    deps = [
+        ":landmark_proto",
+    ],
+)
+
+cc_proto_library(
+    name = "hand_tracking_cc_proto",
+    deps = [":hand_tracking_proto"],
+)
+
+cc_grpc_library(
+    name = "hand_tracking_cc_grpc",
+    srcs = [":hand_tracking_proto"],
+    grpc_only = True,
+    deps = [":hand_tracking_cc_proto"],
 )

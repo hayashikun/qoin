@@ -20,3 +20,14 @@ cc_binary(
         "@mediapipe//mediapipe/graphs/face_mesh:desktop_live_calculators",
     ],
 )
+
+cc_binary(
+    name = "hand_tracking_server",
+    srcs = ["hand_tracking_server.cc"],
+    deps = [
+        "//qoin/proto:hand_tracking_cc_grpc",
+        "//qoin/solution:solution",
+        "@com_github_grpc_grpc//:grpc++",
+        "@mediapipe//mediapipe/graphs/hand_tracking:desktop_tflite_calculators",
+    ],
+)

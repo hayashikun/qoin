@@ -62,6 +62,23 @@
 					"GLOG_logtostderr": "1"
 				}
 			}
+		},
+		{
+			"type": "shell",
+			"label": "build hand_tracking_server",
+			"command": "bazel",
+			"args": [
+				"build",
+				"-c",
+				"opt",
+				"qoin/server:hand_tracking_server",
+			],
+			"options": {
+				"cwd": "${workspaceFolder}",
+				"env": {
+					"GLOG_logtostderr": "1"
+				}
+			}
 		}
 	]
 }
