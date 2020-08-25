@@ -8,4 +8,15 @@ service FaceMesh {
 
 message FaceMeshRequest {}
 
-message FaceMeshReply {}
+message NormalizedLandmark {
+  float x = 1;
+  float y = 2;
+  float z = 3;
+  float visibility = 4;
+}
+
+message NormalizedLandmarkList {
+  repeated NormalizedLandmark landmark = 1;
+}
+
+message FaceMeshReply { repeated NormalizedLandmarkList landmark_list = 1; }
