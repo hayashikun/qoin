@@ -30,9 +30,10 @@ class GreeterServiceImpl final : public qoin::Greeter::Service {
     std::string prefix("Hello ");
     qoin::HelloReply reply;
     reply.set_message(prefix + request->name());
-    while (true) {
+    while (!context->IsCancelled()) {
       writer->Write(reply);
     }
+    return grpc::Status::OK;
   }
 };
 
