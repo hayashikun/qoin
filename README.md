@@ -28,3 +28,10 @@ $ GLOG_logtostderr=1 bazel-bin/qoin/solution/hand_tracking \
 --calculator_graph_config_file=graphs/hand_tracking_desktop_live.pbtxt \
 --mediapipe_resource_root=bazel-qoin/external/mediapipe
 ```
+
+# Apps
+## qoin_py
+https://github.com/hayashikun/qoin_py
+
+## Poin
+https://github.com/hayashikun/Poin
