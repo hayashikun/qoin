@@ -41,8 +41,14 @@ $ GLOG_logtostderr=1 bazel-bin/qoin/server/hand_tracking \
 ```
 
 # Apps
-## qoin_py
-https://github.com/hayashikun/qoin_py
 
-## poin
+## [qoin_py](https://github.com/hayashikun/qoin_py)
+
+Written in Python
+
+![qoin_py](docs/qoin_py.gif)
+
+## [poin](https://github.com/hayashikun/poin)
+
 https://github.com/hayashikun/poin
+![poin](docs/poin.gif)
