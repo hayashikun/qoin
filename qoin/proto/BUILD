@@ -1,5 +1,5 @@
 load("@rules_proto//proto:defs.bzl", "proto_library")
-load("@rules_cc//cc:defs.bzl", "cc_proto_library")
+load("@com_google_protobuf//:protobuf.bzl", "cc_proto_library")
 load("@com_github_grpc_grpc//bazel:cc_grpc_library.bzl", "cc_grpc_library")
 
 package(default_visibility = ["//visibility:public"])
@@ -11,7 +11,7 @@ proto_library(
 
 cc_proto_library(
     name = "hello_cc_proto",
-    deps = [":hello_proto"],
+    srcs = ["hello.proto"],
 )
 
 cc_grpc_library(
@@ -22,25 +22,19 @@ cc_grpc_library(
 )
 
 proto_library(
-    name = "landmark_proto",
-    srcs = [
-        "landmark.proto",
-    ],
-)
-
-proto_library(
     name = "face_mesh_proto",
-    srcs = [
-        "face_mesh.proto",
-    ],
+    srcs = ["face_mesh.proto"],
     deps = [
-        ":landmark_proto",
+        "@mediapipe//mediapipe/framework/formats:landmark_proto",
     ],
 )
 
 cc_proto_library(
     name = "face_mesh_cc_proto",
-    deps = [":face_mesh_proto"],
+    srcs = ["face_mesh.proto"],
+    deps = [
+        "@mediapipe//mediapipe/framework/formats:landmark_cc_proto",
+    ],
 )
 
 cc_grpc_library(
@@ -52,17 +46,20 @@ cc_grpc_library(
 
 proto_library(
     name = "hand_tracking_proto",
-    srcs = [
-        "hand_tracking.proto",
-    ],
+    srcs = ["hand_tracking.proto"],
     deps = [
-        ":landmark_proto",
+        "@mediapipe//mediapipe/framework/formats:detection_proto",
+        "@mediapipe//mediapipe/framework/formats:landmark_proto",
     ],
 )
 
 cc_proto_library(
     name = "hand_tracking_cc_proto",
-    deps = [":hand_tracking_proto"],
+    srcs = ["hand_tracking.proto"],
+    deps = [
+        "@mediapipe//mediapipe/framework/formats:detection_cc_proto",
+        "@mediapipe//mediapipe/framework/formats:landmark_cc_proto",
+    ],
 )
 
 cc_grpc_library(

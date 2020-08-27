@@ -25,12 +25,7 @@ class HandTrackingSolutionServerImpl : public Solution {
       if (grpc_writer != nullptr) {
         auto &landmark_list = p.Get<mediapipe::NormalizedLandmarkList>();
         qoin::HandTrackingReply reply;
-        for (int i = 0; i < landmark_list.landmark_size(); i++) {
-          qoin::Landmark* landmark = reply.mutable_landmark_list()->add_landmark();
-          landmark->set_x(landmark_list.landmark(i).x());
-          landmark->set_y(landmark_list.landmark(i).y());
-          landmark->set_z(landmark_list.landmark(i).z());
-        }
+        *reply.mutable_landmark_list() = landmark_list;
         grpc_writer->Write(reply);
       }
       return ::mediapipe::OkStatus();

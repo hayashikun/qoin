@@ -2,10 +2,10 @@
 
 #include <thread>
 
-#include "qoin/proto/face_mesh.grpc.pb.h"
-#include "qoin/solution/solution.h"
 #include "mediapipe/framework/formats/landmark.pb.h"
-
+#include "qoin/proto/face_mesh.grpc.pb.h"
+#include "qoin/proto/face_mesh.pb.h"
+#include "qoin/solution/solution.h"
 
 constexpr char kOutputLandmarks[] = "multi_face_landmarks";
 
@@ -20,24 +20,19 @@ class FaceMeshSolutionServerImpl : public Solution {
   }
 
   void RegisterOutputStreamHandler(mediapipe::CalculatorGraph& graph) {
-    graph.ObserveOutputStream(kOutputLandmarks,
-                              [&](const mediapipe::Packet& p) {
-                                if (grpc_writer != nullptr) {
-                                  auto &landmark_lists = p.Get<std::vector<mediapipe::NormalizedLandmarkList>>();
-                                  qoin::FaceMeshReply reply;
-                                  for (int i = 0; i < landmark_lists.size(); i++) {
-                                    qoin::LandmarkList* landmark_list = reply.add_landmark_list();
-                                    for (int j = 0; j < landmark_lists[i].landmark_size(); j++) {
-                                      qoin::Landmark* landmark = landmark_list->add_landmark();
-                                      landmark->set_x(landmark_lists[i].landmark(j).x());
-                                      landmark->set_y(landmark_lists[i].landmark(j).y());
-                                      landmark->set_z(landmark_lists[i].landmark(j).z());
-                                    }
-                                  }
-                                  grpc_writer->Write(reply);
-                                }
-                                return ::mediapipe::OkStatus();
-                              });
+    graph.ObserveOutputStream(
+        kOutputLandmarks, [&](const mediapipe::Packet& p) {
+          if (grpc_writer != nullptr) {
+            auto& landmark_lists =
+                p.Get<std::vector<mediapipe::NormalizedLandmarkList>>();
+            qoin::FaceMeshReply reply;
+            for (int i = 0; i < landmark_lists.size(); i++) {
+              *reply.add_landmark_list() = landmark_lists[i];
+            }
+            grpc_writer->Write(reply);
+          }
+          return ::mediapipe::OkStatus();
+        });
   }
 };
 
@@ -59,7 +54,8 @@ class FaceMeshServiceImpl final : public FaceMesh::Service {
                               const FaceMeshRequest* request,
                               grpc::ServerWriter<FaceMeshReply>* writer) {
     grpc_writer = writer;
-    while (solution_running){}    
+    while (solution_running) {
+    }
   }
 };
 

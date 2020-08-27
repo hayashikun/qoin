@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package qoin;
 
-import "qoin/proto/landmark.proto";
+import "mediapipe/framework/formats/landmark.proto";
 
 service FaceMesh {
   rpc FaceMeshStream(FaceMeshRequest) returns (stream FaceMeshReply) {}
@@ -10,4 +10,6 @@ service FaceMesh {
 
 message FaceMeshRequest {}
 
-message FaceMeshReply { repeated LandmarkList landmark_list = 1; }
+message FaceMeshReply {
+  repeated mediapipe.NormalizedLandmarkList landmark_list = 1;
+}

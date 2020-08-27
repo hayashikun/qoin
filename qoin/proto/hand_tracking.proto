@@ -2,7 +2,8 @@ syntax = "proto3";
 
 package qoin;
 
-import "qoin/proto/landmark.proto";
+import "mediapipe/framework/formats/landmark.proto";
+import "mediapipe/framework/formats/detection.proto";
 
 service HandTracking {
   rpc HandTrackingStream(HandTrackingRequest)
@@ -11,4 +12,7 @@ service HandTracking {
 
 message HandTrackingRequest {}
 
-message HandTrackingReply { LandmarkList landmark_list = 1; }
+message HandTrackingReply {
+  repeated mediapipe.Detection detection = 1;
+  mediapipe.NormalizedLandmarkList landmark_list = 2;
+}
