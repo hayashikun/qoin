@@ -4,7 +4,7 @@ By using `qoin`, the hand and face information detected by [mediapipe](https://g
 
 # Build and Run
 
-I have only tested it on macOS, and it probably won't build properly on other environments.
+I have only tested it on macOS, and it probably won't build on other environments.
 
 ## Hello World
 ```
@@ -40,7 +40,7 @@ $ GLOG_logtostderr=1 bazel-bin/qoin/server/hand_tracking \
 --mediapipe_resource_root=bazel-qoin/external/mediapipe
 ```
 
-# Apps
+# Demo apps
 
 ## [qoin_py](https://github.com/hayashikun/qoin_py)
 
@@ -53,4 +53,3 @@ Written in Python
 Written in Rust
 
 <img src="docs/poin.gif" width=600px />
-
