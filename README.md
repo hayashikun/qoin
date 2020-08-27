@@ -46,9 +46,11 @@ $ GLOG_logtostderr=1 bazel-bin/qoin/server/hand_tracking \
 
 Written in Python
 
-![qoin_py](docs/qoin_py.gif)
+<img src="docs/qoin_py.gif" width=600px />
 
 ## [poin](https://github.com/hayashikun/poin)
 
-https://github.com/hayashikun/poin
-![poin](docs/poin.gif)
+Written in Rust
+
+<img src="docs/poin.gif" width=600px />
+
