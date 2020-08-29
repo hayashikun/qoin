@@ -2,10 +2,10 @@
 
 #include <thread>
 
-#include "qoin/proto/hand_tracking.grpc.pb.h"
-#include "qoin/solution/solution.h"
 #include "mediapipe/framework/formats/detection.pb.h"
 #include "mediapipe/framework/formats/landmark.pb.h"
+#include "qoin/proto/hand_tracking.grpc.pb.h"
+#include "qoin/solution/solution.h"
 
 constexpr char kOutputPalm[] = "palm_detections";
 constexpr char kOutputHand[] = "hand_landmarks";
@@ -13,6 +13,7 @@ constexpr char kOutputHand[] = "hand_landmarks";
 namespace qoin {
 grpc::ServerWriter<HandTrackingReply>* grpc_writer;
 bool solution_running = false;
+std::mutex mtx;
 
 class HandTrackingSolutionServerImpl : public Solution {
  public:
@@ -21,12 +22,15 @@ class HandTrackingSolutionServerImpl : public Solution {
   }
 
   void RegisterOutputStreamHandler(mediapipe::CalculatorGraph& graph) {
-    graph.ObserveOutputStream(kOutputHand, [&](const mediapipe::Packet &p) {
-      if (grpc_writer != nullptr) {
-        auto &landmark_list = p.Get<mediapipe::NormalizedLandmarkList>();
-        qoin::HandTrackingReply reply;
-        *reply.mutable_landmark_list() = landmark_list;
-        grpc_writer->Write(reply);
+    graph.ObserveOutputStream(kOutputHand, [&](const mediapipe::Packet& p) {
+      {
+        std::lock_guard<std::mutex> lock(mtx);
+        if (grpc_writer != nullptr) {
+          auto& landmark_list = p.Get<mediapipe::NormalizedLandmarkList>();
+          qoin::HandTrackingReply reply;
+          reply.mutable_landmark_list()->CopyFrom(landmark_list);
+          grpc_writer->Write(reply);
+        }
       }
       return ::mediapipe::OkStatus();
     });
@@ -47,11 +51,20 @@ void StartSolution() {
 
 class HandTrackingServiceImpl final : public HandTracking::Service {
  public:
-  grpc::Status HandTrackingStream(grpc::ServerContext* context,
-                              const HandTrackingRequest* request,
-                              grpc::ServerWriter<HandTrackingReply>* writer) {
+  grpc::Status HandTrackingStream(
+      grpc::ServerContext* context, const HandTrackingRequest* request,
+      grpc::ServerWriter<HandTrackingReply>* writer) {
     grpc_writer = writer;
-    while (solution_running){}    
+    while (solution_running) {
+      if (context->IsCancelled()) {
+        break;
+      }
+    }
+    {
+      std::lock_guard<std::mutex> lock(mtx);
+      grpc_writer = nullptr;
+    }
+    return grpc::Status::OK;
   }
 };
 

@@ -12,6 +12,7 @@ constexpr char kOutputLandmarks[] = "multi_face_landmarks";
 namespace qoin {
 grpc::ServerWriter<FaceMeshReply>* grpc_writer;
 bool solution_running = false;
+std::mutex mtx;
 
 class FaceMeshSolutionServerImpl : public Solution {
  public:
@@ -22,14 +23,17 @@ class FaceMeshSolutionServerImpl : public Solution {
   void RegisterOutputStreamHandler(mediapipe::CalculatorGraph& graph) {
     graph.ObserveOutputStream(
         kOutputLandmarks, [&](const mediapipe::Packet& p) {
-          if (grpc_writer != nullptr) {
-            auto& landmark_lists =
-                p.Get<std::vector<mediapipe::NormalizedLandmarkList>>();
-            qoin::FaceMeshReply reply;
-            for (int i = 0; i < landmark_lists.size(); i++) {
-              *reply.add_landmark_list() = landmark_lists[i];
+          {
+            std::lock_guard<std::mutex> lock(mtx);
+            if (grpc_writer != nullptr) {
+              auto& landmark_lists =
+                  p.Get<std::vector<mediapipe::NormalizedLandmarkList>>();
+              qoin::FaceMeshReply reply;
+              for (int i = 0; i < landmark_lists.size(); i++) {
+                reply.add_landmark_list()->CopyFrom(landmark_lists[i]);
+              }
+              grpc_writer->Write(reply);
             }
-            grpc_writer->Write(reply);
           }
           return ::mediapipe::OkStatus();
         });
@@ -55,7 +59,15 @@ class FaceMeshServiceImpl final : public FaceMesh::Service {
                               grpc::ServerWriter<FaceMeshReply>* writer) {
     grpc_writer = writer;
     while (solution_running) {
+      if (context->IsCancelled()) {
+        break;
+      }
     }
+    {
+      std::lock_guard<std::mutex> lock(mtx);
+      grpc_writer = nullptr;
+    }
+    return grpc::Status::OK;
   }
 };
 
