@@ -30,7 +30,6 @@ DEFINE_string(output_video_path, "",
 DEFINE_string(mediapipe_resource_root, "", "Resource root directory");
 DEFINE_int32(camera_id, 0, "Camera ID");
 
-
 namespace qoin {
 ::mediapipe::Status Solution::StartVideo() {
   absl::SetFlag(&FLAGS_resource_root_dir, FLAGS_mediapipe_resource_root);
@@ -78,16 +77,19 @@ namespace qoin {
 
   LOG(INFO) << "Start grabbing and processing frames.";
   bool grab_frames = true;
+  bool display_output_frame = true;
   while (grab_frames) {
     // Capture opencv camera or video frame.
     cv::Mat camera_frame_raw;
     capture >> camera_frame_raw;
     if (camera_frame_raw.empty()) break;  // End of video.
+
+    if (!load_video) {
+      cv::flip(camera_frame_raw, camera_frame_raw, /*flipcode=HORIZONTAL*/ 1);
+    }
+
     cv::Mat camera_frame;
     cv::cvtColor(camera_frame_raw, camera_frame, cv::COLOR_BGR2RGB);
-    if (!load_video) {
-      cv::flip(camera_frame, camera_frame, /*flipcode=HORIZONTAL*/ 1);
-    }
 
     // Wrap Mat into an ImageFrame.
     auto input_frame = absl::make_unique<mediapipe::ImageFrame>(
@@ -121,10 +123,20 @@ namespace qoin {
       }
       writer.write(output_frame_mat);
     } else {
-      cv::imshow(kWindowName, output_frame_mat);
+      if (display_output_frame) {
+        cv::imshow(kWindowName, output_frame_mat);
+      } else {
+        cv::imshow(kWindowName, camera_frame_raw);
+      }
+
       // Press any key to exit.
       const int pressed_key = cv::waitKey(5);
-      if (pressed_key >= 0 && pressed_key != 255) grab_frames = false;
+      // `f` key
+      if (pressed_key == 102) {
+        display_output_frame = !display_output_frame;
+      } else if (pressed_key >= 0 && pressed_key != 255) {
+        grab_frames = false;
+      }
     }
   }
 

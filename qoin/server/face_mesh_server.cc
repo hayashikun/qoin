@@ -11,6 +11,7 @@ constexpr char kOutputLandmarks[] = "multi_face_landmarks";
 
 namespace qoin {
 grpc::ServerWriter<FaceMeshReply>* grpc_writer;
+std::unique_ptr<grpc::Server> server;
 bool solution_running = false;
 std::mutex mtx;
 
@@ -79,7 +80,7 @@ void StartServer() {
   grpc::ServerBuilder builder;
   builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
   builder.RegisterService(&service);
-  std::unique_ptr<grpc::Server> server(builder.BuildAndStart());
+  server = builder.BuildAndStart();
   std::cout << "Server listening on " << server_address << std::endl;
   server->Wait();
 }
@@ -90,6 +91,7 @@ int main(int argc, char** argv) {
   gflags::ParseCommandLineFlags(&argc, &argv, true);
   std::thread th_server(qoin::StartServer);
   qoin::StartSolution();
+  qoin::server->Shutdown();
   th_server.join();
 
   return 0;
