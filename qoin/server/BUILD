@@ -1,7 +1,7 @@
 load("@rules_cc//cc:defs.bzl", "cc_binary")
 
 cc_binary(
-    name = "hello_server",
+    name = "hello",
     srcs = ["hello_server.cc"],
     deps = [
         "//qoin/proto:hello_cc_grpc",
@@ -11,7 +11,7 @@ cc_binary(
 
 
 cc_binary(
-    name = "face_mesh_server",
+    name = "face_mesh",
     srcs = ["face_mesh_server.cc"],
     deps = [
         "//qoin/proto:face_mesh_cc_grpc",
@@ -22,7 +22,7 @@ cc_binary(
 )
 
 cc_binary(
-    name = "hand_tracking_server",
+    name = "hand_tracking",
     srcs = ["hand_tracking_server.cc"],
     deps = [
         "//qoin/proto:hand_tracking_cc_grpc",

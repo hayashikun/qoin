@@ -37,7 +37,7 @@
 			"command": "bazel",
 			"args": [
 				"run",
-				"qoin/server:hello_server",
+				"qoin/server:hello",
 			],
 			"options": {
 				"cwd": "${workspaceFolder}",
@@ -54,7 +54,7 @@
 				"build",
 				"-c",
 				"opt",
-				"qoin/server:face_mesh_server",
+				"qoin/server:face_mesh",
 			],
 			"options": {
 				"cwd": "${workspaceFolder}",
@@ -71,7 +71,7 @@
 				"build",
 				"-c",
 				"opt",
-				"qoin/server:hand_tracking_server",
+				"qoin/server:hand_tracking",
 			],
 			"options": {
 				"cwd": "${workspaceFolder}",
