@@ -28,6 +28,8 @@ DEFINE_string(output_video_path, "",
               "Full path of where to save result (.mp4 only). "
               "If not provided, show result in a window.");
 DEFINE_string(mediapipe_resource_root, "", "Resource root directory");
+DEFINE_int32(camera_id, 0, "Camera ID");
+
 
 namespace qoin {
 ::mediapipe::Status Solution::StartVideo() {
@@ -52,7 +54,7 @@ namespace qoin {
   if (load_video) {
     capture.open(FLAGS_input_video_path);
   } else {
-    capture.open(2);  // TODO
+    capture.open(FLAGS_camera_id);
   }
   RET_CHECK(capture.isOpened());
 
