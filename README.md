@@ -4,8 +4,6 @@ By using `qoin`, the hand and face information detected by [mediapipe](https://g
 
 # Build and Run
 
-I have only tested it on macOS, and it probably won't build on other environments.
-
 ## Hello World
 ```
 $ bazel build -c opt //qoin/hello_world
