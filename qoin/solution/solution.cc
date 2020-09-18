@@ -27,12 +27,11 @@ DEFINE_string(input_video_path, "",
 DEFINE_string(output_video_path, "",
               "Full path of where to save result (.mp4 only). "
               "If not provided, show result in a window.");
-DEFINE_string(mediapipe_resource_root, "", "Resource root directory");
 DEFINE_int32(camera_id, 0, "Camera ID");
 
 namespace qoin {
 ::mediapipe::Status Solution::StartVideo() {
-  absl::SetFlag(&FLAGS_resource_root_dir, FLAGS_mediapipe_resource_root);
+  absl::SetFlag(&FLAGS_resource_root_dir, "bazel-qoin/external/mediapipe");
 
   std::string calculator_graph_config_contents;
   MP_RETURN_IF_ERROR(mediapipe::file::GetContents(

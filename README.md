@@ -10,32 +10,28 @@ $ bazel build -c opt //qoin/hello_world
 $ GLOG_logtostderr=1 bazel-bin/qoin/hello_world/hello_world
 ```
 
-## Face mesh
+## Face mesh demo
 ```
 $ bazel build -c opt //qoin/solution:face_mesh
-$ GLOG_logtostderr=1 bazel-bin/qoin/solution/face_mesh \
---mediapipe_resource_root=bazel-qoin/external/mediapipe
+$ GLOG_logtostderr=1 bazel-bin/qoin/solution/face_mesh
 ```
 
 ## Face mesh server
 ```
-$ bazel build -c opt //qoin/server:face_mesh_server
-$ GLOG_logtostderr=1 bazel-bin/qoin/server/face_mesh_server \
---mediapipe_resource_root=bazel-qoin/external/mediapipe
+$ bazel build -c opt //qoin/server:face_mesh
+$ GLOG_logtostderr=1 bazel-bin/qoin/server/face_mesh
 ```
 
-## Hand tracking
+## Hand tracking demo
 ```
 $ bazel build -c opt //qoin/solution:hand_tracking
-$ GLOG_logtostderr=1 bazel-bin/qoin/server/hand_tracking \
---mediapipe_resource_root=bazel-qoin/external/mediapipe
+$ GLOG_logtostderr=1 bazel-bin/qoin/server/hand_tracking
 ```
 
 ## Hand tracking server
 ```
 $ bazel build -c opt //qoin/server:hand_tracking
-$ GLOG_logtostderr=1 bazel-bin/qoin/server/hand_tracking \
---mediapipe_resource_root=bazel-qoin/external/mediapipe
+$ GLOG_logtostderr=1 bazel-bin/qoin/server/hand_tracking
 ```
 
 # Demo apps
