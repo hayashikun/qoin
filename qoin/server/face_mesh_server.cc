@@ -10,7 +10,7 @@
 constexpr char kOutputLandmarks[] = "multi_face_landmarks";
 
 namespace qoin {
-grpc::ServerWriter<FaceMeshReply>* grpc_writer;
+grpc::ServerWriter<FaceMeshPullReply>* grpc_writer;
 std::unique_ptr<grpc::Server> server;
 bool solution_running = false;
 std::mutex mtx;
@@ -29,7 +29,7 @@ class FaceMeshSolutionServerImpl : public Solution {
             if (grpc_writer != nullptr) {
               auto& landmark_lists =
                   p.Get<std::vector<mediapipe::NormalizedLandmarkList>>();
-              qoin::FaceMeshReply reply;
+              qoin::FaceMeshPullReply reply;
               for (int i = 0; i < landmark_lists.size(); i++) {
                 reply.add_landmark_list()->CopyFrom(landmark_lists[i]);
               }
@@ -55,9 +55,9 @@ void StartSolution() {
 
 class FaceMeshServiceImpl final : public FaceMesh::Service {
  public:
-  grpc::Status FaceMeshStream(grpc::ServerContext* context,
-                              const FaceMeshRequest* request,
-                              grpc::ServerWriter<FaceMeshReply>* writer) {
+  grpc::Status FaceMeshPullStream(
+      grpc::ServerContext* context, const FaceMeshPullRequest* request,
+      grpc::ServerWriter<FaceMeshPullReply>* writer) {
     grpc_writer = writer;
     while (solution_running) {
       if (context->IsCancelled()) {

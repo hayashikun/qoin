@@ -6,13 +6,22 @@ import "mediapipe/framework/formats/landmark.proto";
 import "mediapipe/framework/formats/detection.proto";
 
 service HandTracking {
-  rpc HandTrackingStream(HandTrackingRequest)
-      returns (stream HandTrackingReply) {}
+  rpc HandTrackingPullStream(HandTrackingPullRequest)
+      returns (stream HandTrackingPullReply) {}
+  rpc HandTrackingPushStream(HandTrackingPushRequest)
+      returns (stream HandTrackingPushReply) {}
 }
 
-message HandTrackingRequest {}
+message HandTrackingPullRequest {}
 
-message HandTrackingReply {
+message HandTrackingPullReply {
   repeated mediapipe.Detection detection = 1;
   mediapipe.NormalizedLandmarkList landmark_list = 2;
 }
+
+message HandTrackingPushRequest {
+  repeated mediapipe.Detection detection = 1;
+  mediapipe.NormalizedLandmarkList landmark_list = 2;
+}
+
+message HandTrackingPushReply {}

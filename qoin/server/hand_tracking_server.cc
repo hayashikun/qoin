@@ -11,7 +11,7 @@ constexpr char kOutputPalm[] = "palm_detections";
 constexpr char kOutputHand[] = "hand_landmarks";
 
 namespace qoin {
-grpc::ServerWriter<HandTrackingReply>* grpc_writer;
+grpc::ServerWriter<HandTrackingPullReply>* grpc_writer;
 std::unique_ptr<grpc::Server> server;
 bool solution_running = false;
 std::mutex mtx;
@@ -28,7 +28,7 @@ class HandTrackingSolutionServerImpl : public Solution {
         std::lock_guard<std::mutex> lock(mtx);
         if (grpc_writer != nullptr) {
           auto& landmark_list = p.Get<mediapipe::NormalizedLandmarkList>();
-          qoin::HandTrackingReply reply;
+          qoin::HandTrackingPullReply reply;
           reply.mutable_landmark_list()->CopyFrom(landmark_list);
           grpc_writer->Write(reply);
         }
@@ -52,9 +52,9 @@ void StartSolution() {
 
 class HandTrackingServiceImpl final : public HandTracking::Service {
  public:
-  grpc::Status HandTrackingStream(
-      grpc::ServerContext* context, const HandTrackingRequest* request,
-      grpc::ServerWriter<HandTrackingReply>* writer) {
+  grpc::Status HandTrackingPullStream(
+      grpc::ServerContext* context, const HandTrackingPullRequest* request,
+      grpc::ServerWriter<HandTrackingPullReply>* writer) {
     grpc_writer = writer;
     while (solution_running) {
       if (context->IsCancelled()) {

@@ -5,11 +5,20 @@ package qoin;
 import "mediapipe/framework/formats/landmark.proto";
 
 service FaceMesh {
-  rpc FaceMeshStream(FaceMeshRequest) returns (stream FaceMeshReply) {}
+  rpc FaceMeshPullStream(FaceMeshPullRequest)
+      returns (stream FaceMeshPullReply) {}
+  rpc FaceMeshPushStream(FaceMeshPushRequest)
+      returns (stream FaceMeshPushReply) {}
 }
 
-message FaceMeshRequest {}
+message FaceMeshPullRequest {}
 
-message FaceMeshReply {
+message FaceMeshPullReply {
   repeated mediapipe.NormalizedLandmarkList landmark_list = 1;
 }
+
+message FaceMeshPushRequest {
+  repeated mediapipe.NormalizedLandmarkList landmark_list = 1;
+}
+
+message FaceMeshPushReply {}
