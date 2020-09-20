@@ -7,8 +7,8 @@ import "mediapipe/framework/formats/landmark.proto";
 service FaceMesh {
   rpc FaceMeshPullStream(FaceMeshPullRequest)
       returns (stream FaceMeshPullReply) {}
-  rpc FaceMeshPushStream(FaceMeshPushRequest)
-      returns (stream FaceMeshPushReply) {}
+  rpc FaceMeshPushStream(stream FaceMeshPushRequest)
+      returns (FaceMeshPushReply) {}
 }
 
 message FaceMeshPullRequest {}

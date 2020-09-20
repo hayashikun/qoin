@@ -8,8 +8,8 @@ import "mediapipe/framework/formats/detection.proto";
 service HandTracking {
   rpc HandTrackingPullStream(HandTrackingPullRequest)
       returns (stream HandTrackingPullReply) {}
-  rpc HandTrackingPushStream(HandTrackingPushRequest)
-      returns (stream HandTrackingPushReply) {}
+  rpc HandTrackingPushStream(stream HandTrackingPushRequest)
+      returns (HandTrackingPushReply) {}
 }
 
 message HandTrackingPullRequest {}
