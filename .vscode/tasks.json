@@ -79,6 +79,40 @@
 					"GLOG_logtostderr": "1"
 				}
 			}
+		},
+		{
+			"type": "shell",
+			"label": "build face_mesh_client",
+			"command": "bazel",
+			"args": [
+				"build",
+				"-c",
+				"opt",
+				"qoin/client:face_mesh",
+			],
+			"options": {
+				"cwd": "${workspaceFolder}",
+				"env": {
+					"GLOG_logtostderr": "1"
+				}
+			}
+		},
+		{
+			"type": "shell",
+			"label": "build hand_tracking_client",
+			"command": "bazel",
+			"args": [
+				"build",
+				"-c",
+				"opt",
+				"qoin/client:hand_tracking",
+			],
+			"options": {
+				"cwd": "${workspaceFolder}",
+				"env": {
+					"GLOG_logtostderr": "1"
+				}
+			}
 		}
 	]
 }
