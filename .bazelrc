@@ -2,6 +2,6 @@ common --experimental_repo_remote_exec
 
 build --jobs 128
 build --define='MEDIAPIPE_DISABLE_GPU=1'
-build --cxxopt=-std=c++14
-build --host_cxxopt=-std=c++14
+build --cxxopt=-std=c++17
+build --host_cxxopt=-std=c++17
 build --copt=-w
