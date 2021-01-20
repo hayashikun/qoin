@@ -7,8 +7,6 @@
 			"command": "bazel",
 			"args": [
 				"build",
-				"-c",
-				"opt",
 				"qoin/solution:face_mesh",
 			],
 			"options": {
@@ -22,8 +20,6 @@
 			"command": "bazel",
 			"args": [
 				"build",
-				"-c",
-				"opt",
 				"qoin/solution:hand_tracking",
 			],
 			"options": {
@@ -52,8 +48,6 @@
 			"command": "bazel",
 			"args": [
 				"build",
-				"-c",
-				"opt",
 				"qoin/server:face_mesh",
 			],
 			"options": {
@@ -69,8 +63,6 @@
 			"command": "bazel",
 			"args": [
 				"build",
-				"-c",
-				"opt",
 				"qoin/server:hand_tracking",
 			],
 			"options": {
@@ -86,8 +78,6 @@
 			"command": "bazel",
 			"args": [
 				"build",
-				"-c",
-				"opt",
 				"qoin/client:face_mesh",
 			],
 			"options": {
@@ -103,8 +93,6 @@
 			"command": "bazel",
 			"args": [
 				"build",
-				"-c",
-				"opt",
 				"qoin/client:hand_tracking",
 			],
 			"options": {
