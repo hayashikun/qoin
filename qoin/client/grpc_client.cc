@@ -5,7 +5,7 @@
 DEFINE_string(url, "", "gRPC sever URL");
 
 namespace qoin {
-std::shared_ptr<grpc::Channel> connect() {
+    std::shared_ptr<grpc::Channel> connect() {
         return grpc::CreateChannel(FLAGS_url, grpc::InsecureChannelCredentials());
-}
+    }
 }  // namespace qoin
