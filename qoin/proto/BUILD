@@ -68,3 +68,28 @@ cc_grpc_library(
     grpc_only = True,
     deps = [":hand_tracking_cc_proto"],
 )
+
+proto_library(
+    name = "iris_tracking_proto",
+    srcs = ["iris_tracking.proto"],
+    deps = [
+        "@mediapipe//mediapipe/framework/formats:detection_proto",
+        "@mediapipe//mediapipe/framework/formats:landmark_proto",
+    ],
+)
+
+cc_proto_library(
+    name = "iris_tracking_cc_proto",
+    srcs = ["iris_tracking.proto"],
+    deps = [
+        "@mediapipe//mediapipe/framework/formats:detection_cc_proto",
+        "@mediapipe//mediapipe/framework/formats:landmark_cc_proto",
+    ],
+)
+
+cc_grpc_library(
+    name = "iris_tracking_cc_grpc",
+    srcs = [":iris_tracking_proto"],
+    grpc_only = True,
+    deps = [":iris_tracking_cc_proto"],
+)

@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package qoin;
+
+import "mediapipe/framework/formats/landmark.proto";
+
+service IrisTracking {
+  rpc IrisTrackingPullStream(IrisTrackingPullRequest)
+      returns (stream IrisTrackingPullReply) {}
+  rpc IrisTrackingPushStream(stream IrisTrackingPushRequest)
+      returns (IrisTrackingPushReply) {}
+}
+
+message IrisTrackingPullRequest {}
+
+message IrisTrackingPullReply {
+  mediapipe.NormalizedLandmarkList landmark_list = 1;
+}
+
+message IrisTrackingPushRequest {
+  mediapipe.NormalizedLandmarkList landmark_list = 1;
+}
+
+message IrisTrackingPushReply {}

@@ -29,6 +29,19 @@
 		},
 		{
 			"type": "shell",
+			"label": "build iris_tracking",
+			"command": "bazel",
+			"args": [
+				"build",
+				"qoin/solution:iris_tracking",
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"group": "build"
+		},
+		{
+			"type": "shell",
 			"label": "run hello_server",
 			"command": "bazel",
 			"args": [
@@ -74,6 +87,21 @@
 		},
 		{
 			"type": "shell",
+			"label": "build iris_tracking_server",
+			"command": "bazel",
+			"args": [
+				"build",
+				"qoin/server:iris_tracking",
+			],
+			"options": {
+				"cwd": "${workspaceFolder}",
+				"env": {
+					"GLOG_logtostderr": "1"
+				}
+			}
+		},
+		{
+			"type": "shell",
 			"label": "build face_mesh_client",
 			"command": "bazel",
 			"args": [
@@ -94,6 +122,21 @@
 			"args": [
 				"build",
 				"qoin/client:hand_tracking",
+			],
+			"options": {
+				"cwd": "${workspaceFolder}",
+				"env": {
+					"GLOG_logtostderr": "1"
+				}
+			}
+		},
+		{
+			"type": "shell",
+			"label": "build iris_tracking_client",
+			"command": "bazel",
+			"args": [
+				"build",
+				"qoin/client:iris_tracking",
 			],
 			"options": {
 				"cwd": "${workspaceFolder}",

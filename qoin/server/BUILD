@@ -31,3 +31,14 @@ cc_binary(
         "@mediapipe//mediapipe/graphs/hand_tracking:desktop_tflite_calculators",
     ],
 )
+
+cc_binary(
+    name = "iris_tracking",
+    srcs = ["iris_tracking_server.cc"],
+    deps = [
+        "//qoin/proto:iris_tracking_cc_grpc",
+        "//qoin/solution:solution",
+        "@com_github_grpc_grpc//:grpc++",
+        "@mediapipe//mediapipe/graphs/iris_tracking:iris_tracking_cpu_deps",
+    ],
+)

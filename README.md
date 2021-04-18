@@ -46,6 +46,23 @@ $ bazel build -c opt //qoin/client:hand_tracking
 $ GLOG_logtostderr=1 bazel-bin/qoin/client/hand_tracking --url=localhost:3000
 ```
 
+## Iris tracking demo
+```
+$ bazel build -c opt //qoin/solution:iris_tracking
+$ GLOG_logtostderr=1 bazel-bin/qoin/server/iris_tracking
+```
+
+## Iris tracking server
+```
+$ bazel build -c opt //qoin/server:ris_tracking
+$ GLOG_logtostderr=1 bazel-bin/qoin/server/iris_tracking
+```
+
+## Iris tracking server
+```
+$ bazel build -c opt //qoin/client:iris_tracking
+$ GLOG_logtostderr=1 bazel-bin/qoin/client/iris_tracking --url=localhost:3000
+```
 
 # Demo apps
 
